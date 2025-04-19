@@ -10,29 +10,29 @@ pipeline {
 
     stage('Build Backend') {
       steps {
-        sh 'docker build -t aryasingh55/educart-backend ./backend'
+        bat 'docker build -t aryasingh55/educart-backend ./backend'
       }
     }
 
     stage('Build Frontend') {
       steps {
-        sh 'docker build -t aryasingh55/educart-frontend ./educart'
+        bat 'docker build -t aryasingh55/educart-frontend ./educart'
       }
     }
 
     stage('Push Images') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-          sh 'docker push aryasingh55/educart-backend'
-          sh 'docker push aryasingh55/educart-frontend'
+          bat 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+          bat 'docker push aryasingh55/educart-backend'
+          bat 'docker push aryasingh55/educart-frontend'
         }
       }
     }
 
     stage('Deploy to Swarm') {
       steps {
-        sh 'docker stack deploy -c docker-compose.yml educart-stack'
+        bat 'docker stack deploy -c docker-compose.yml educart-stack'
       }
     }
   }
