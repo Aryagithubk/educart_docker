@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 // Importing routes
 const authRoutes = require("./routes/authRoutes");
@@ -27,6 +28,7 @@ app.use(cors());
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());
+app.use(cookieParser());
 
 // Static file serving (for production builds)
 if (process.env.NODE_ENV === "production") {
