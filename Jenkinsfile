@@ -22,7 +22,7 @@ pipeline {
 
     stage('Push Images') {
   steps {
-    sh 'echo "dckr_pat_s_1bXt87uDiVvSjyyZTCMcVKx94" | docker login -u aryasanya55 --password-stdin'
+    sh 'echo "dckr_pat_oDRfBYiCWGbC-Uk8GRuQyTThagc" | docker login -u aryasanya55 --password-stdin'
     sh 'docker push aryasingh55/educart-backend'
     sh 'docker push aryasingh55/educart-frontend'
   }
