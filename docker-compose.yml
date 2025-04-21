@@ -4,19 +4,36 @@ services:
   backend:
     image: aryasingh55/educart-backend
     ports:
-      - "5000:5000"  # Expose backend on port 5000
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-
+      - "5002:5000"  # Expose backend on port 5000
+   
   frontend:
     image: aryasingh55/educart-frontend
     ports:
-      - "3000:80"  # Expose frontend on port 3000
-    depends_on:
-      - backend
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
+      - "3002:80"  # Expose frontend on port 3000
+  
+# version: "3.8"
+
+# services:
+#   backend:
+#     image: aryasingh55/educart-backend
+#     ports:
+#       - target: 5000
+#         published: 5002
+#         protocol: tcp
+#         mode: ingress
+#     deploy:
+#       replicas: 1
+#       placement:
+#         constraints: [node.role == manager]
+
+#   frontend:
+#     image: aryasingh55/educart-frontend
+#     ports:
+#       - target: 80
+#         published: 3002
+#         protocol: tcp
+#         mode: ingress
+#     deploy:
+#       replicas: 1
+#       placement:
+#         constraints: [node.role == manager]

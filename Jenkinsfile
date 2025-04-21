@@ -31,7 +31,7 @@ pipeline {
 
     stage('Deploy to Swarm') {
       steps {
-        sh 'docker stack deploy -c docker-compose.yml educart-stack'
+        sh 'docker-compose up --build'
       }
     }
   }
