@@ -21,14 +21,13 @@ pipeline {
     }
 
     stage('Push Images') {
-      steps {
-        withCredentials([usernamePassword(credentialsId: 'dockerhub-token', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-          sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-          sh 'docker push aryasingh55/educart-backend'
-          sh 'docker push aryasingh55/educart-frontend'
-        }
-      }
-    }
+  steps {
+    sh 'echo "dckr_pat_s_1bXt87uDiVvSjyyZTCMcVKx94" | docker login -u aryasanya55 --password-stdin'
+    sh 'docker push aryasingh55/educart-backend'
+    sh 'docker push aryasingh55/educart-frontend'
+  }
+}
+
 
     stage('Deploy to Swarm') {
       steps {
