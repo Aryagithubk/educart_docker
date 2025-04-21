@@ -31,7 +31,7 @@ pipeline {
 
     stage('Deploy to Swarm') {
       steps {
-        sh 'docker-compose up --build'
+        sh 'docker-compose up --build -d'
       }
     }
   }
