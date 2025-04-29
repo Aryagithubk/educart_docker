@@ -9,7 +9,7 @@ function Banner() {
         <h1>Welcome to the Student Market</h1>
         <p>Buy and sell essential products for engineering students!</p>
         <div className="banner-buttons">
-          <button className="btn btn-explore">Explore Products</button>
+          <button className="btn btn-explore">Explore</button>
           <button className="btn btn-sell">Sell Your Item</button>
         </div>
       </div>

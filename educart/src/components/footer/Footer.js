@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-section about">
-          <h3>About EduCart</h3>
+          <h3>EduCart</h3>
           <p>
             EduCart is your one-stop marketplace for essential products for
             engineering students.
