@@ -13,7 +13,7 @@
 ### Backend:
 - Node.js
 - Express.js
-- MongoDB (Mongoose)
+- MongoDB (with Mongoose orm)
 - RESTful API
 
 ### DevOps:
