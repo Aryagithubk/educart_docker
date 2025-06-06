@@ -14,7 +14,7 @@
 - Node.js
 - Express.js
 - MongoDB [with Mongoose ORM]
-- RESTful API
+- RESTful APIs
 
 ### DevOps:
 - Docker (Dockerfile, Docker Compose)
