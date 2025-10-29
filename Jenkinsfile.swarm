@@ -2,8 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKERHUB_USER = 'aryasingh55'
-    DOCKERHUB_PASS = 'dckr_pat_Bq2vDNN0C84Zvn3yLhhnmb4ACWo'
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
 
   stages {
@@ -17,13 +16,13 @@ pipeline {
       parallel {
         stage('Build Backend') {
           steps {
-            sh 'docker build -t ${DOCKERHUB_USER}/educart-backend ./backend'
+            sh 'docker build -t ${DOCKERHUB_CREDENTIALS_USR}/educart-backend ./backend'
           }
         }
 
         stage('Build Frontend') {
           steps {
-            sh 'docker build -t ${DOCKERHUB_USER}/educart-frontend ./educart'
+            sh 'docker build -t ${DOCKERHUB_CREDENTIALS_USR}/educart-frontend ./educart'
           }
         }
       }
@@ -31,22 +30,23 @@ pipeline {
 
     stage('Push Images to DockerHub') {
       steps {
-        sh 'echo "${DOCKERHUB_PASS}" | docker login -u ${DOCKERHUB_USER} --password-stdin'
-        sh 'docker push ${DOCKERHUB_USER}/educart-backend'
-        sh 'docker push ${DOCKERHUB_USER}/educart-frontend'
+        sh '''
+          echo "${DOCKERHUB_CREDENTIALS_PSW}" | docker login -u "${DOCKERHUB_CREDENTIALS_USR}" --password-stdin
+          docker push ${DOCKERHUB_CREDENTIALS_USR}/educart-backend
+          docker push ${DOCKERHUB_CREDENTIALS_USR}/educart-frontend
+        '''
       }
     }
 
-   stage('Deploy with Docker Swarm') {
-        steps {
-            sh '''
-            docker swarm init --advertise-addr 172.27.166.212 || true
-            docker stack deploy -c docker-compose.swarm.yaml educart_stack
-            docker service ls
-            '''
-        }
+    stage('Deploy with Docker Swarm') {
+      steps {
+        sh '''
+          docker swarm init --advertise-addr 172.27.166.212 || true
+          docker stack deploy -c docker-compose.swarm.yaml educart_stack
+          docker service ls
+        '''
+      }
     }
-
   }
 
   post {
