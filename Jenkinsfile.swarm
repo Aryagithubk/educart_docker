@@ -1,0 +1,56 @@
+pipeline {
+  agent any
+
+  environment {
+    DOCKERHUB_USER = 'aryasingh55'
+    DOCKERHUB_PASS = 'dckr_pat_Bq2vDNN0C84Zvn3yLhhnmb4ACWo'
+  }
+
+  stages {
+    stage('Clone from GitHub') {
+      steps {
+        git branch: 'main', url: 'https://github.com/Aryagithubk/educart_docker.git'
+      }
+    }
+
+    stage('Build Images in Parallel') {
+      parallel {
+        stage('Build Backend') {
+          steps {
+            sh 'docker build -t ${DOCKERHUB_USER}/educart-backend ./backend'
+          }
+        }
+
+        stage('Build Frontend') {
+          steps {
+            sh 'docker build -t ${DOCKERHUB_USER}/educart-frontend ./educart'
+          }
+        }
+      }
+    }
+
+    stage('Push Images to DockerHub') {
+      steps {
+        sh 'echo "${DOCKERHUB_PASS}" | docker login -u ${DOCKERHUB_USER} --password-stdin'
+        sh 'docker push ${DOCKERHUB_USER}/educart-backend'
+        sh 'docker push ${DOCKERHUB_USER}/educart-frontend'
+      }
+    }
+
+    stage('Deploy with Docker Swarm') {
+      steps {
+        sh '''
+          docker swarm init || true
+          docker stack deploy -c docker-compose.swarm.yaml educart_stack
+          docker service ls
+        '''
+      }
+    }
+  }
+
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
+}
