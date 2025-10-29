@@ -41,7 +41,7 @@ pipeline {
         steps {
             sh '''
             docker swarm init --advertise-addr 172.27.166.212 || true
-            docker stack deploy -c docker-stack.yml educart_stack
+            docker stack deploy -c docker-compose.swarm.yaml educart_stack
             docker service ls
             '''
         }
