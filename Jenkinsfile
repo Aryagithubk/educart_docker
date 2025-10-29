@@ -21,13 +21,16 @@ pipeline {
     }
 
     stage('Push Images') {
-  steps {
-    sh 'echo "dckr_pat_Bq2vDNN0C84Zvn3yLhhnmb4ACWo" | docker login -u aryasingh55 --password-stdin'
-    sh 'docker push aryasingh55/educart-backend'
-    sh 'docker push aryasingh55/educart-frontend'
-  }
-}
-
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+          sh '''
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
+            docker push aryasingh55/educart-backend
+            docker push aryasingh55/educart-frontend
+          '''
+        }
+      }
+    }
 
     stage('Deploy') {
       steps {
