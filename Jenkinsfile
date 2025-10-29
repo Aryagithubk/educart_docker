@@ -22,14 +22,14 @@ pipeline {
 
     stage('Push Images') {
   steps {
-    sh 'echo "dckr_pat_oDRfBYiCWGbC-Uk8GRuQyTThagc" | docker login -u aryasingh55 --password-stdin'
+    sh 'echo "dckr_pat_Bq2vDNN0C84Zvn3yLhhnmb4ACWo" | docker login -u aryasingh55 --password-stdin'
     sh 'docker push aryasingh55/educart-backend'
     sh 'docker push aryasingh55/educart-frontend'
   }
 }
 
 
-    stage('Deploy to Swarm') {
+    stage('Deploy') {
       steps {
         sh 'docker compose up --build -d'
       }
